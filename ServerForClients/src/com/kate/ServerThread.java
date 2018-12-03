@@ -16,7 +16,7 @@ public class ServerThread extends Thread
         this.s=s;
     }
 
-    public void run() {
+    public void run(){
         try {
             sin = s.getInputStream();
             sout = s.getOutputStream();
@@ -41,12 +41,12 @@ public class ServerThread extends Thread
         }
 
         catch (IOException e) {
-            line=Thread.currentThread().getName(); //reused String line for getting thread name
+            line=Thread.currentThread().getName();
             System.out.println("IO Error/ Client "+line+" terminated abruptly");
         }
 
         catch(NullPointerException e){
-            line=Thread.currentThread().getName(); //reused String line for getting thread name
+            line=Thread.currentThread().getName();
             System.out.println("Client "+line+" Closed");
         }
 

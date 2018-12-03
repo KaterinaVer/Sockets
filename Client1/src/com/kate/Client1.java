@@ -21,11 +21,11 @@ public class Client1 {
         System.out.println();
 
         while (true) {
-            line = keyboard.readLine(); // ждем пока пользователь введет что-то и нажмет кнопку Enter.
+            line = keyboard.readLine();
             System.out.println("Sending this line to the server...");
-            out.writeUTF(line); // отсылаем введенную строку текста серверу.
-            out.flush(); // заставляем поток закончить передачу данных.
-            line = in.readUTF(); // ждем пока сервер отошлет строку текста.
+            out.writeUTF(line);
+            out.flush();
+            line = in.readUTF();
             System.out.println("The server sent me this : " + line);
             System.out.println("You can enter more lines.");
             System.out.println();
