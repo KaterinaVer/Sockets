@@ -6,24 +6,32 @@ import java.net.Socket;
 public class Client1 {
     public static void main(String[] args) throws IOException {
         Socket socket;
-        socket = new Socket("localhost", 8090);
+        socket = new Socket("localhost", 8080);
         System.out.println(socket.getInetAddress());
 
-        InputStream sin = socket.getInputStream();
-        OutputStream sout = socket.getOutputStream();
+        int port=socket.getLocalPort();
+        String clientPort= Integer.toString(port);
+        System.out.println("Local port: " + clientPort);
 
-        DataInputStream in = new DataInputStream(sin);
-        DataOutputStream out = new DataOutputStream(sout);
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+        boolean autoflush = true;
+        PrintWriter cout = new PrintWriter(socket.getOutputStream(), autoflush);
+        cout.println("GET / HTTP/1.1");
+
+        String line = null;
+        line = in.readUTF();
+        System.out.println("The server sent me this : " + line);
 
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-        String line = null;
+
         System.out.println("Type in something and press enter.");
-        System.out.println();
 
         while (true) {
             line = keyboard.readLine();
             System.out.println("Sending this line to the server...");
-            out.writeUTF(line);
+            out.writeUTF("Client port - " + clientPort + " - message: " +line);
             out.flush();
             line = in.readUTF();
             System.out.println("The server sent me this : " + line);

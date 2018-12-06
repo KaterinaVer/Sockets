@@ -1,13 +1,14 @@
 package com.kate;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 
 public class ServerForClients {
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket;
+
         Socket socket;
-        serverSocket = new ServerSocket(8090);
+        ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("Listening for connection on port 8080 ....");
 
         while(true)
         {
@@ -18,5 +19,6 @@ public class ServerForClients {
         }
 
     }
+
 
 }

@@ -2,15 +2,16 @@ package com.kate;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Date;
 
 public class ServerThread extends Thread
 {
-    String line=null;
-    Socket s=null;
-    InputStream sin = null;
-    OutputStream sout = null;
+    String line= null;
+    Socket s;
     DataInputStream in = null;
     DataOutputStream out = null;
+    Date today = null;
+    String httpResponse = null;
 
     public ServerThread(Socket s){
         this.s=s;
@@ -18,12 +19,12 @@ public class ServerThread extends Thread
 
     public void run(){
         try {
-            sin = s.getInputStream();
-            sout = s.getOutputStream();
-
-            in = new DataInputStream(sin);
-            out = new DataOutputStream(sout);
-
+            in = new DataInputStream(s.getInputStream());
+            out = new DataOutputStream(s.getOutputStream());
+            InputStreamReader isr = new InputStreamReader(s.getInputStream());
+            BufferedReader reader = new BufferedReader(isr);
+            line = reader.readLine();
+            line=null;
         }
 
         catch(IOException e){
@@ -31,12 +32,14 @@ public class ServerThread extends Thread
         }
 
         try {
-            line = in.readUTF();
+            today = new Date();
+            httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + today;
+            out.writeUTF(httpResponse);
             while( true) {
+                line = in.readUTF();
                 out.writeUTF(line);
                 out.flush();
                 System.out.println("Response to Client  :  " + line);
-                line = in.readUTF();
             }
         }
 
